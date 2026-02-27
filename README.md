@@ -2,74 +2,67 @@
 ## Validando y publicando tu aplicación Android
 
 ### 📝 Descripción de la Actividad
-Este proyecto corresponde a la fase final de consolidación de la **VeterinariaApp**. Se ha refactorizado la arquitectura bajo el patrón **MVVM**, implementado componentes modernos de **Jetpack**, y diseñado una suite de pruebas robusta (unitarias y funcionales) para asegurar la calidad del software antes de su empaquetado y publicación.
+Este proyecto consolida la **VeterinariaApp** mediante una refactorización integral hacia una arquitectura **MVVM (Model-View-ViewModel)**. Se han aplicado principios de **modularidad y desacoplamiento**, integrando componentes de **Jetpack** y una suite de pruebas robusta que garantiza la estabilidad del sistema antes de su distribución final.
+
+### ✨ Funcionalidades Principales
+*   **Autenticación**: Login y Registro con persistencia de sesión segura.
+*   **Gestión de Atenciones**: Flujo guiado para el registro de mascotas y servicios.
+*   **Agenda Personalizada**: Consulta de citas y historial médico del usuario.
+*   **Farmacia Digital**: Catálogo con carrito de compras y validación de stock.
+*   **Accesibilidad (UX)**: Soporte para Modo Oscuro y control de escala de fuente adaptativo (Optimizado para dispositivos de alta densidad como Samsung S24).
 
 ---
 
-### 🏗️ Arquitectura y Componentes Aplicados
-Se ha estructurado el proyecto siguiendo las mejores prácticas de modularidad y separación de capas:
+### 🏗️ Arquitectura y Tecnologías
+El proyecto destaca por una separación de capas clara y mantenible:
 
-1.  **Capa de Vista (UI):** 
-    *   Desarrollada íntegramente con **Jetpack Compose**.
-    *   **Coil (Image Loading):** Carga asíncrona de imágenes de red para veterinarios e iconos de mascotas.
-    *   **Accesibilidad:** Soporte para modo oscuro y escalado de fuentes adaptable (Optimizado para Samsung S24).
-2.  **Capa de Lógica (ViewModel):** 
-    *   Uso de `ViewModel` y `StateFlow` para una reactividad de datos eficiente.
-3.  **Capa de Datos (Repository & Local):** 
-    *   **Room Database:** Persistencia local de datos.
-    *   **Retrofit:** Consumo de API REST.
-    *   **Repository Pattern:** Abstracción de datos para facilitar pruebas.
-4.  **Navegación:** 
-    *   **Navigation Compose** para flujos entre pantallas con transiciones animadas.
+1.  **Capa de Vista (UI):** Desarrollada con **Jetpack Compose**, utilizando componentes declarativos para una interfaz moderna.
+2.  **Capa de Lógica (ViewModel):** Uso de `ViewModel` y **StateFlow** (equivalente moderno y reactivo a LiveData) para gestionar el estado de la UI de forma desacoplada.
+3.  **Capa de Datos:** 
+    *   **Room Database:** Persistencia local estructurada y eficiente.
+    *   **Retrofit:** Consumo de servicios API REST.
+    *   **Repository Pattern:** Capa de abstracción que garantiza el desacoplamiento entre el origen de datos y la lógica de negocio.
+4.  **Navegación:** **Navigation Compose** para la gestión de rutas y paso de argumentos.
 
 ---
 
-### 🧪 Detalle de Pruebas Implementadas
-Para garantizar la estabilidad, se han aplicado pruebas en dos niveles:
+### 🧪 Estrategia de Testing
+Se han implementado pruebas automatizadas para validar la integridad del sistema:
 
 #### 1. Pruebas Unitarias (JUnit 4 + MockK + Turbine)
-*   **Lógica de Negocio:** Validación de entradas en `ValidationUtils`.
-*   **Gestión de Estados:** Pruebas en `RegistroViewModel` (carrito, stock y limpieza de datos).
+*   **Alcance:** Validación de lógica de negocio en `ValidationUtils` y gestión de estados de registro en `RegistroViewModel` (carrito, validación de stock y limpieza de datos).
+*   **Comando:** `./gradlew test`
 
-#### 2. Pruebas Funcionales e Instrumentadas (Compose Test / Espresso)
-*   **Flujos de UI:** Simulación de Login, navegación a la Agenda y proceso de Registro de mascotas.
-*   **Robustez:** Manejo de esperas asíncronas (`waitUntil`) y permisos (`GrantPermissionRule`).
+#### 2. Pruebas de UI e Instrumentadas (Compose Test / Espresso)
+*   **Alcance:** Validación de flujos críticos de usuario: Inicio de sesión, navegación a la Agenda y proceso completo de registro de mascotas.
+*   **Comando:** `./gradlew connectedDebugAndroidTest`
+*   **Requisitos:** Dispositivo físico o emulador (API 24+) con depuración activa.
 
 ---
 
-### 🚀 Instrucciones para Ejecución
+### 🚀 Instrucciones para la Revisión
 
-#### Requisitos
-*   Android Studio Iguana o superior.
-*   Dispositivo físico o emulador con API 24 o superior.
-
-#### Pasos para ejecutar la App
+#### Instalación y Ejecución
 1.  Importar el proyecto en Android Studio.
-2.  Sincronizar Gradle.
-3.  Presionar el botón **Run 'app'** para instalar en modo Debug, o instalar el **APK firmado** incluido en la entrega.
+2.  Sincronizar Gradle y ejecutar mediante el botón **Run 'app'**.
+3.  Alternativamente, instalar el **APK firmado** disponible en los archivos de entrega.
 
-#### Pasos para ejecutar las Pruebas
-1.  **Pruebas Unitarias:** Click derecho en `app/src/test` -> *Run 'Tests in cl.duoc.veterinaria'*.
-2.  **Pruebas de UI:** Iniciar un emulador y ejecutar las pruebas en `app/src/androidTest`.
+#### Replicación de Pruebas
+*   **Unitarias:** Click derecho en la carpeta `app/src/test` -> *Run*.
+*   **Instrumentadas:** Asegurar un emulador/dispositivo conectado y ejecutar desde `app/src/androidTest`.
 
 ---
 
 ### 📸 Evidencias de Validación
-
-#### 1. Resultado Pruebas Unitarias
-Validación exitosa de la lógica interna.
-![Resultado Pruebas Unitarias](screenshots/unit_tests_results.png)
-
-#### 2. Resultado Pruebas de UI
-Validación de navegación y flujos de usuario.
-![Resultado Pruebas de UI](screenshots/android_tests_results.png)
+*   **Pruebas Unitarias (Local):** ![Unit Tests](screenshots/unit_tests_results.png)
+*   **Pruebas de UI (Instrumentadas):** ![UI Tests](screenshots/android_tests_results.png)
 
 ---
 
-### 🚀 Cierre Técnico del Proyecto
-*   **Refactorización:** Código limpio bajo MVVM y desacoplado.
-*   **Optimización:** Configuración de versión **1.1 (Build 2)** y diseño responsivo para dispositivos modernos.
-*   **Publicación:** Generación de **APK firmado** funcional.
+### 🏁 Cierre Técnico
+*   **Configuración APK:** Iconos adaptativos, permisos de sistema (Internet, Notificaciones, Foreground Service) y nombre de aplicación configurados.
+*   **Versión:** 1.1 (Build 2).
+*   **Estado:** Proyecto refactorizado, validado bajo estándares de calidad y **APK firmado** listo para distribución.
 
 ---
 **Desarrollado por:** Liliana Tapia  
