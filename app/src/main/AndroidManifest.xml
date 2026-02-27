@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Permiso personalizado para el Content Provider -->
+    <permission 
+        android:name="cl.duoc.veterinaria.READ_MASCOTAS" 
+        android:protectionLevel="normal" />
+
+    <!-- Permisos requeridos -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Permiso necesario para que el servicio no sea eliminado por el sistema -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+    <application
+        android:name=".VeterinariaApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.VeterinariaApp">
+        
+        <!-- Actividad Principal -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.VeterinariaApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            
+            <!-- Intent Filter para abrir la app desde un enlace externo (Deep Link) -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="www.veterinaria-duoc.cl" />
+            </intent-filter>
+        </activity>
+
+        <!-- Actividad Secundaria para Consultas (Paso 1: Activity separada) -->
+        <activity
+            android:name=".ConsultasActivity"
+            android:exported="false"
+            android:label="Gestión de Consultas" />
+
+        <!-- Servicio (Paso 1: Service) -->
+        <!-- Se declara el tipo de foregroundService para compatibilidad con Android 14+ -->
+        <service
+            android:name=".service.NotificacionService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="recordatorios_veterinaria" />
+        </service>
+
+        <!-- Content Provider (Paso 1: Content Provider) -->
+        <provider
+            android:name=".provider.VeterinariaProvider"
+            android:authorities="cl.duoc.veterinaria.provider"
+            android:exported="true"
+            android:readPermission="cl.duoc.veterinaria.READ_MASCOTAS" />
+
+        <!-- El ConnectivityReceiver ya no se declara aquí porque se registra manualmente en MainActivity -->
+
+    </application>
+
+</manifest>
